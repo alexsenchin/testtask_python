@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: toor
+    volumes: 
+      - postgres_data:/var/lib/postgresql/data/ 
+  board_web:
+    build: .
+    command: python /usr/src/board_api/manage.py runserver 0.0.0.0:8000
+    volumes: 
+      - .:/usr/src/board_api
+    ports:
+      - 8000:8000 
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
